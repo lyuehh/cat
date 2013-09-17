@@ -47,8 +47,8 @@ $(function() {
         var imgs = _.filter(all, function(i) {
             return i.indexOf(filename) !== -1;
         });
-        
-        var tpl_yes = '<% _.each(imgs, function(i) { %><img src="<%=  baseurl + i %>" /><%  }); %>';
+
+        var tpl_yes = '<% _.each(imgs, function(i, a) { %><div class="item <%= (a===0 ? "active": "") %>"><img src="<%=  baseurl + i %>" /></div><%  }); %>';
         var tpl_no = '<p>no image this day...</p>';
         var tpl;
 
@@ -61,6 +61,6 @@ $(function() {
             imgs: imgs,
             baseurl: baseurl
         });
-        $('.imgs').html(html);
+        $('.carousel-inner').html(html);
     }
 });
