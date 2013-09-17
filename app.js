@@ -48,9 +48,18 @@ $(function() {
             return i.indexOf(filename) !== -1;
         });
 
-        var tpl_yes = '<% _.each(imgs, function(i, a) { %><div class="item <%= (a===0 ? "active": "") %>"><img src="<%=  baseurl + i %>" /></div><%  }); %>';
+        var tpl_yes = '<% _.each(imgs, function(i, a) { %>'+
+            '<div class="item <%= (a===0 ? "active": "") %>">'+
+            '<img src="<%=  baseurl + i %>" />'+
+            '</div>'+
+            '<%  }); %>';
         var tpl_no = '<p>no image this day...</p>';
         var tpl;
+
+        var tpl_slide = '<% _.each(imgs, function(i, a) { %>'+
+            '<li data-target="#carousel-example-generic" data-slide-to="<%= a %>" class="<%= (a===0 ? "active" : "") %>">'+
+            '</li>'+
+            '<%  }); %>';
 
         if (imgs.length === 0) {
             tpl = tpl_no;
@@ -62,5 +71,10 @@ $(function() {
             baseurl: baseurl
         });
         $('.carousel-inner').html(html);
+
+        var slide_html = _.template(tpl_slide, {
+            imgs: imgs
+        });
+        $('.carousel-indicators').html(slide_html);
     }
 });
