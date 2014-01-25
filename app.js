@@ -33,6 +33,7 @@ $(function() {
         // image
         update_image(fdate);
     });
+    update_image('20120101');
 
     function update_image(fdate) {
         var all = $('#all').text().replace(/ /g,'').split('\n'); // all the image
@@ -43,38 +44,20 @@ $(function() {
         var names = _.chain(_.range(1,10 )).map(function(i) {
             return '0' + i;
         }).value();
-        var filename = year4 + "%2Ff" + year + day;
+        var filename = year4 + "/f" + year + day;
         var imgs = _.filter(all, function(i) {
             return i.indexOf(filename) !== -1;
         });
 
-        var tpl_yes = '<% _.each(imgs, function(i, a) { %>'+
-            '<div class="item <%= (a===0 ? "active": "") %>">'+
+        var tpl = '<% _.each(imgs, function(i, a) { %>'+
             '<img src="<%=  baseurl + i %>" />'+
-            '</div>'+
-            '<%  }); %>';
-        var tpl_no = '<p>no image this day...</p>';
-        var tpl;
-
-        var tpl_slide = '<% _.each(imgs, function(i, a) { %>'+
-            '<li data-target="#carousel-example-generic" data-slide-to="<%= a %>" class="<%= (a===0 ? "active" : "") %>">'+
-            '</li>'+
             '<%  }); %>';
 
-        if (imgs.length === 0) {
-            tpl = tpl_no;
-        } else {
-            tpl = tpl_yes;
-        }
         var html = _.template(tpl, {
             imgs: imgs,
             baseurl: baseurl
         });
-        $('.carousel-inner').html(html);
 
-        var slide_html = _.template(tpl_slide, {
-            imgs: imgs
-        });
-        $('.carousel-indicators').html(slide_html);
+        $('.imgs').html(html);
     }
 });
